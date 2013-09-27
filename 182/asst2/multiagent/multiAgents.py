@@ -9,6 +9,7 @@
 from util import manhattanDistance
 from game import Directions
 import random, util
+import time
 
 from game import Agent
 
@@ -105,51 +106,6 @@ class MinimaxAgent(MultiAgentSearchAgent):
     Your minimax agent (question 2)
   """
 
-  """
-    goes through all legal actions for pacman, returns action w/ max end utility
-    inputs: current gameState
-    outputs: tuple (action, value) of highest value action
-  """
-  def max_value(gameState, action=Directions.STOP):
-    legal_actions = gameState.getLegalActions(0)
-    max_action = (None,-float("inf")) 
-
-    "* look through all actions *"
-    for action in legal_actions: 
-      successor_state = gameState.generateSuccessor(0, action)
-      next_action = min_value(successor_state, action, 1)
-      if (next_action[1] > max_action[1]):
-        max_action = next_action
-
-    if (max_action[0] == None):
-      return (action, self.evaluationFunction)
-    return max_action 
-
-  """
-    finds min_value for given game_state
-    inputs: current gameState, what action led to current gameState, what agent to look at
-    outputs: tuple (action, value) of lowest value action
-  """
-  def min_value(state, action, agent_number):
-    if (agent_number + 1 == gameState.getNumAgents()): # if were on the last ghost subtract depth
-      self.depth -= 1
-      if (self.depth == 0): # if were at the bottom of the depth, just return current utility
-        return (action, self.evaluationFunction)
-
-    legal_actions = gameState.getLegalActions(agent_number)
-    min_action = (0,float("inf")) 
-    "* look through all actions *"
-    for action in legal_actions: 
-      successor_state = gameState.generateSuccessor(agent_number, action)
-      if (agent_number + 1 == gameState.getNumAgents()):
-        next_action = max_value(successor_state)
-      else:
-        next_action = min_value(successor_state, action, agent_number + 1)
-      if (min_action[1] > next_action[1]):
-        min_action = next_action
-    return min_action 
-    
-
   def getAction(self, gameState):
     """
       Returns the minimax action from the current gameState using self.depth
@@ -171,15 +127,58 @@ class MinimaxAgent(MultiAgentSearchAgent):
         Returns the total number of agents in the game
     """
     "*** YOUR CODE HERE ***"
-    return max_value(gameState)[0]
-    # if depth reached -evaluate and return value
-    # else check if current agent is pacman or ghost
-    # if ghost get min of successors
-    # if pacman get max of successors
-    #
-    #
 
-    util.raiseNotDefined()
+    return self.value(gameState, 0, 0)[0]
+
+  def value(self, gameState, depth, agentIndex):
+    if agentIndex >= gameState.getNumAgents():
+      depth += 1
+      agentIndex = 0
+
+
+    if depth == self.depth:
+      return self.evaluationFunction(gameState)
+
+    if agentIndex == 0:
+      return self.maxValue(gameState, depth, agentIndex)
+    else:
+      return self.minValue(gameState, depth, agentIndex)
+
+  def maxValue(self, gameState, depth, agentIndex):
+    returnObject = (Directions.STOP, -1 *float("inf"))
+
+    legalActions = gameState.getLegalActions(agentIndex)
+    if not legalActions:
+      return self.evaluationFunction(gameState)
+
+    for action in legalActions:
+      if action == Directions.STOP:
+        continue
+
+      newValue = self.value(gameState.generateSuccessor(agentIndex, action), depth, agentIndex + 1)
+      if type(newValue) is tuple:
+        newValue = newValue[1]
+      if(newValue > returnObject[1]):
+        returnObject = (action, newValue)
+    return returnObject
+
+
+  def minValue(self, gameState, depth, agentIndex):
+    returnObject = (Directions.STOP, float("inf"))
+    legalActions = gameState.getLegalActions(agentIndex)
+    if not legalActions:
+      return self.evaluationFunction(gameState)
+
+    for action in legalActions:
+      if action == Directions.STOP:
+        continue
+
+      newValue = self.value(gameState.generateSuccessor(agentIndex, action), depth, agentIndex + 1)
+      if type(newValue) is tuple:
+        newValue = newValue[1]
+      if(newValue < returnObject[1]):
+        returnObject = (action, newValue)
+    return returnObject
 
 class AlphaBetaAgent(MultiAgentSearchAgent):
   """
@@ -191,7 +190,71 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
       Returns the minimax action using self.depth and self.evaluationFunction
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    return self.value(gameState, 0, 0, -1*float("inf"), float("inf"))[0]
+
+  def value(self, gameState, depth, agentIndex, alpha, beta):
+    if agentIndex >= gameState.getNumAgents():
+      depth += 1
+      agentIndex = 0
+
+
+    if depth == self.depth or gameState.isWin() or gameState.isLose():
+      return self.evaluationFunction(gameState)
+
+    if agentIndex == 0:
+      return self.maxValue(gameState, depth, agentIndex, alpha, beta)
+    else:
+      return self.minValue(gameState, depth, agentIndex, alpha, beta)
+
+  def maxValue(self, gameState, depth, agentIndex, alpha, beta):
+    returnObject = (Directions.STOP, -1 *float("inf"))
+
+    legalActions = gameState.getLegalActions(agentIndex)
+    if not legalActions:
+      return self.evaluationFunction(gameState)
+
+    for action in legalActions:
+      if action == Directions.STOP:
+        continue
+
+      newValue = self.value(gameState.generateSuccessor(agentIndex, action), depth, agentIndex + 1, alpha, beta)
+      if type(newValue) is tuple:
+        newValue = newValue[1]
+      if(newValue > returnObject[1]):
+        returnObject = (action, newValue)
+
+      if returnObject[1] >= alpha:
+        alpha = returnObject[1]
+
+      if returnObject[1] >= beta:
+        return returnObject
+
+    return returnObject
+
+
+  def minValue(self, gameState, depth, agentIndex, alpha, beta):
+    returnObject = (Directions.STOP, float("inf"))
+    legalActions = gameState.getLegalActions(agentIndex)
+    if not legalActions:
+      return self.evaluationFunction(gameState)
+
+    for action in legalActions:
+      if action == Directions.STOP:
+        continue
+
+      newValue = self.value(gameState.generateSuccessor(agentIndex, action), depth, agentIndex + 1, alpha, beta)
+      if type(newValue) is tuple:
+        newValue = newValue[1]
+      if newValue < returnObject[1]:
+        returnObject = (action, newValue)
+
+      if returnObject[1] <= beta:
+        beta = newValue
+
+      if returnObject[1] <= alpha:
+        return returnObject
+
+    return returnObject
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
   """
@@ -206,8 +269,60 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
       legal moves.
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    return self.value(gameState, 0, 0)[0]
 
+  def value(self, gameState, depth, agentIndex):
+    if agentIndex >= gameState.getNumAgents():
+      depth += 1
+      agentIndex = 0
+
+
+    if depth == self.depth:
+      return self.evaluationFunction(gameState)
+
+    if agentIndex == 0:
+      return self.maxValue(gameState, depth, agentIndex)
+    else:
+      return self.minValue(gameState, depth, agentIndex)
+
+  def maxValue(self, gameState, depth, agentIndex):
+    returnObject = (Directions.STOP, -1 *float("inf"))
+
+    legalActions = gameState.getLegalActions(agentIndex)
+    if not legalActions:
+      return self.evaluationFunction(gameState)
+
+    for action in legalActions:
+      if action == Directions.STOP:
+        continue
+
+      newValue = self.value(gameState.generateSuccessor(agentIndex, action), depth, agentIndex + 1)
+      if type(newValue) is tuple:
+        newValue = newValue[1]
+      if(newValue > returnObject[1]):
+        returnObject = (action, newValue)
+    return returnObject
+
+
+  def minValue(self, gameState, depth, agentIndex):
+    returnObject = (Directions.STOP, float("inf"))
+    legalActions = gameState.getLegalActions(agentIndex)
+    newValue = 0.
+    actionCounter = 0.
+    if not legalActions:
+      return self.evaluationFunction(gameState)
+
+    for action in legalActions:
+      if action == Directions.STOP:
+        continue
+
+      getValue = self.value(gameState.generateSuccessor(agentIndex, action), depth, agentIndex + 1)
+      if type(getValue) is tuple:
+        getValue = getValue[1]
+      newValue += getValue
+      actionCounter += 1.
+    returnObject = (action, newValue / actionCounter)
+    return returnObject
 
 def betterEvaluationFunction(currentGameState):
   """
@@ -215,9 +330,53 @@ def betterEvaluationFunction(currentGameState):
     evaluation function (question 5).
 
     DESCRIPTION: <write something here so we know what you did>
+
+    The important factors for evaluating a game state are basically what we think about 
+    as we play the game.  These factors include how far away from the food we are, 
+    how close we are to the ghosts, how close we are to the capsules, and what the
+    current score is.  Since a large score is the ultimate goal, that should have a lot of weight.
+    On the other hand, being close to the food is only a minor goal in the short term, so that
+    has a small weight. Being very close to the ghosts is really scary unless we can eat them
+    which gives a lot of points.  In either case, ghost proximity is weighted quite heavily.  
+
+
   """
   "*** YOUR CODE HERE ***"
-  util.raiseNotDefined()
+  foodArray = currentGameState.getFood().asList()
+  pacmanPosition = currentGameState.getPacmanPosition()
+  ghostStates = currentGameState.getGhostStates()
+  capsulePositions = currentGameState.getCapsules()
+
+
+  foodDistance = 0.
+  ghostDistance = 0.
+  capsuleDistance = 0.
+  
+  for capsule in capsulePositions:
+    capsuleDistance += 10 / float(manhattanDistance(pacmanPosition, capsule))
+
+  for food in foodArray:
+    foodDistance += 1 / float(manhattanDistance(pacmanPosition, food))
+  food_count = len(foodArray)+1
+  foodDistance = foodDistance / food_count
+
+  ghostFactor = 0.
+  for ghost in ghostStates:
+    ghostPosition = ghost.getPosition()
+    if ghostPosition == pacmanPosition:
+      return -float("inf")
+    if ghost.scaredTimer == 0:
+      ghostDistance -= 1 / float(manhattanDistance(pacmanPosition, ghostPosition))
+    else:
+      ghostDistance += 50 / float(manhattanDistance(pacmanPosition, ghostPosition))
+
+  score = currentGameState.getScore()
+  foodDistance = foodDistance
+  ghostDistance = 100*ghostDistance
+  capsuleDistance = 50*capsuleDistance
+  return currentGameState.getScore() + foodDistance + ghostDistance + capsuleDistance
+
+
 
 # Abbreviation
 better = betterEvaluationFunction

@@ -1,0 +1,230 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage[latin1]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{trees}
+\usepackage{amsthm}
+
+
+\begin{document}
+\noindent {\large  \textbf{Stat 110 Homework 3}} \hfill Mark Grozen-Smith
+
+\bigskip
+
+\noindent 1.
+
+	a) There a re two ways to do this.  First with a probability tree, second using Bayes' Theorem.  First, I'll show the probability tree.  From the tree, it is obvious that I have an equal probability (50:50) of having chosen the car given that the Goat door is opened. Thus, I don't know if I should stay or switch.  
+
+	% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=3.5cm, sibling distance=3.5cm]
+\tikzstyle{level 2}=[level distance=3.5cm, sibling distance=2cm]
+
+% Define styles for bags and leafs
+\tikzstyle{bag} = [text width=4em, text centered]
+\tikzstyle{end} = [circle, minimum width=3pt,fill, inner sep=0pt]
+
+% The sloped option gives rotated edge labels. Personally
+% I find sloped labels a bit difficult to read. Remove the sloped options
+% to get horizontal labels. 
+\begin{tikzpicture}[grow=right, sloped]
+\node[bag] {Car in door $A$}
+    child {
+        node[bag] {I choose Goat door}        
+            child {
+                node[end, label=right:
+                    {Monty opens Computer door}] {}
+                edge from parent
+                node[below]  {1}
+            }
+            edge from parent 
+            node[below]  {$\frac{1}{3}$}
+    }
+    child {
+        node[bag] {I choose Comp door}        
+            child {
+                node[end, label=right:
+                    {Monty opens Goat door}] {}
+                edge from parent
+                node[below]  {1}
+            }
+            edge from parent 
+            node[below]  {$\frac{1}{3}$}
+    }
+    child {
+        node[bag] {I choose Car door}        
+            child {
+                node[end, label=right:
+                    {Monty opens Goat door}] {}
+                edge from parent
+                node[below]  {1}
+            }
+            edge from parent 
+            node[below]  {$\frac{1}{3}$}
+    };
+\end{tikzpicture}
+
+
+
+	The other approach to this problem is via Bayes' Theorem.  Let's call G the event that Monty opened
+	the Goat door and C the event that I have chosen the Car door.  
+	\begin{gather}
+	\begin{align*}
+		P(C \mid G) &= \frac{P(G \mid C)*P(C)}{P(G)} \\
+		P(C \mid G) &= \frac{1*\frac{1}{3}}{\frac{2}{3}} = \boxed{\frac{1}{2}}
+	\end{align*}
+	\end{gather}
+
+	Given this info, we see that we have no valuable info of whether we should switch or not. 
+\smallskip
+	b) This problem can be approached in both the same ways as part $(a)$.  I will just use Bayes' this time. The events C and G are the same as before, the event B is me having chosen the Computer door.  
+	\begin{gather*}
+	\begin{align*}
+		P(C \mid B) = \frac{P(B \mid C)*P(C)}{P(B)} &= \frac{P(B \mid C)*P(C)}{P(B \mid C)*P(C) + P(B \mid G)*P(G)}
+		\\
+		\frac{P(B \mid C)*P(C)}{P(B \mid C)*P(C) + P(B \mid G)*P(G)} &= \frac{q*\frac{1}{3}}{p*\frac{1}{3} + q*\frac{1}{3}}
+		\\
+		P(C \mid B) &= \frac{q}{p+q} = q
+	\end{align*}
+	\end{gather*}
+
+	This shows that I have chosen the Car door with probability $q$ given that Monty reveals the computer.  Thus, I want to switch if $q<0.5$. If I do switch, I will get the car with probability $1-q = \boxed{p}$
+\bigskip
+
+\noindent 2.
+
+	a) From $P(A \mid B) > P(A \mid B^c)$, we can immediately see that $A$ and $B$ are not independent. One definition of independence is that $P(A \mid B) = P(A \mid B^c)$, so we have already reached a contradiction.  $A$ and $B$ can not be independent.
+
+\smallskip
+
+    b) If A and C are independent, we can condition A on C and still get $P(A)$.  
+
+    \begin{gather*}
+    \begin{align*}
+        P(A \mid C) = P(A \mid B,C)*P(B \mid C) + P(A \mid B^c,C)*P(B^c \mid C) \\
+    \end{align*}
+    \end{gather*}
+
+    With this, we can subsitute $P(A) = P(A \mid B^c,C)$ in for $P(A \mid B,C)$ and switch the = sign to a greater than sign.  This yields: 
+
+    \begin{gather*}
+    \begin{align*}
+    P(A \mid C) &< P(A \mid B^c,C)*P(B \mid C) + P(A \mid B^c,C)*P(B^c \mid C)\\
+    P(A \mid C) &< P(A \mid B^c,C)*[P(B \mid C) + P(B^c \mid C)]\\
+    P(A \mid C) &< P(A \mid B^c,C)*[1]\\
+    P(A \mid C) &< P(A \mid B^c,C)\\
+    P(A) &< P(A \mid B^c,C)
+    \end{align*}
+    \end{gather*}
+
+    On the other hand, we can repeat the same argument to find that $P(A) = P(A \mid C) < P(A \mid B^c,C^c)$.
+
+    \begin{gather*}
+    \begin{align*}
+    P(A \mid C^c) &< P(A \mid B^c,C^c)*P(B \mid C^c) + P(A \mid B^c,C^c)*P(B^c \mid C^c)\\
+    P(A \mid C^c) &< P(A \mid B^c,C^c)*[P(B \mid C^c) + P(B^c \mid C^c)]\\
+    P(A \mid C^c) &< P(A \mid B^c,C^c)*[1]\\
+    P(A \mid C^c) &< P(A \mid B^c,C^c)\\
+    P(A) &< P(A \mid B^c,C^c)
+    \end{align*}
+    \end{gather*}
+
+    This is a contradiction though! $P(A)$ can't be smaller than both $P(A \mid B^c,C)$ and $P(A \mid B^c,C^c)$.  $P(A)$ can be written as a weighted average of these two probabilities.  A value can not be smaller than both portions of its weighted average.  Therefore, my initial assumption, that A and C are independent, must be false.
+
+\smallskip
+    
+    c) 
+    \begin{gather*}
+    \begin{align*}
+    P(A \mid B) = P(A \mid B,C)*P(C \mid B) + P(A \mid B,C^c)*P(C^c \mid B)\\
+    \end{align*}
+    \end{gather*}
+    From here, we can make a substitution using the first 2 assumptions given in the problem. 
+
+    $P(A \mid B) < P(A \mid B^c,C)*P(C \mid B) + P(A \mid B^c,C^c)*P(C^c \mid B)$
+    We can now also use the assumption that B and C are independent to yield
+
+    $P(A \mid B) < P(A \mid B^c,C)*P(C) + P(A \mid B^c,C^c)*P(C^c)$
+
+    Separately, we can see that 
+    $P(A \mid B^c) = P(A \mid B^c, C)*P(C \mid B^c) + P(A \mid B^c, C^c)*P(C^c \mid B^c)$
+
+    $P(A \mid B^c) = P(A \mid B^c, C)*P(C) + P(A \mid B^c, C^c)*P(C^c)$
+
+    However, now we have reached a contradition.  The assumptions tell us that $P(A \mid B) > P(A \mid B^c)$ however, we see above that $P(A \mid B^c) > P(A \mid B)$.  This is a contradiction.  Given this knowledge base, B and C cannot be independent.
+
+
+\bigskip
+
+
+\noindent 3. 
+    
+    Let's label the wolf position as point 50 so that the sheep on the opposite side is at point 0.  Since the circle is symmetric, the sheep next to position 0 can be 1 or 99 interchangeably.  We know that the probability of the wolf never ever hitting point 1 nor 99 is 0 (for the same reason as why we know that the Gambler's Ruin problem always ends eventually).  Thus, eventually the wolf will hit point 1 or 99.  By symmetry, and for simplicity, we can call the sheep adjacent to point 0 that the wolf hits first to be at point 1.  Now the problem is very simple.  This is just the Gambler's Ruin problem with $N=99, i=1, p=\frac{1}{2}$. Using these parameters and the result of the Gambler's Ruin, we know that this probability is $\frac{i}{N} = \boxed{\frac{1}{99}}$
+
+\bigskip
+
+\noindent 4. 
+\smallskip
+    a) If $S_n$ is the position after $n$ steps, $L_n$ is the number of lefts the man takes in $n$ steps, and $R_n$ is the number of rights the man takes after n steps, $R_n$ and $L_n$ are not only not independent, but entirely disjoint. This is useful.  This lets us see the distribution for $S_n$ as a binomial as usual.  Since $R_n$ and $L_n$ are both just Binomial Distributions with $n$ trials and respectively probabilities p and q. We can even think of it the same as a typical Binomial Distribution with just one small tweak.  Normally, a success is counted as a one and a failure is counted as a zero, then the sum of all values is returned from the sample of the Binomial Distribution.  In this case, we have to adjust for the failures counting as negative 1.  This means that, if we want to end up with a value of $k$ at the end of $n$ trials, we need to have $k$ successes plus a few more to cancel out the failures.  Since successes and failures are equally and oppositely weighted, we just split the remaining $n-k$ in half and require half to be successes and half to be failures.  Thus, we can treat this distribution for $S_n$ the same as any Binomial provided that for any $k$ successes we want, we look for $k+\frac{n-k}{2}$ successes instead. This gives us the resulting PMF of $\boxed{P(S_n=k) = \binom{n}{\frac{n+k}{2}}p^{\frac{n+k}{2}}q^{\frac{n-k}{2}}}$
+\smallskip
+
+    b) $p_k = p_{k-1}*p + p_{k+1}*q$
+
+\smallskip
+
+    c) $p_k$ is the probability that we hit the point $k$ ever.  The only way the man would never hit point $k$ is if he wanders off to negative infinity.  Ideally, we could simply write the Gambler's Ruin result for a man starting at 0, wanting to hit $k$, but losing an infinite number of times. This is not possible, so let's approximate that negative infinity (losing an infinite number of times) with -1 instead (no, that's not a good estimate. Bear with me.).  This Gambler's Ruin problem is simple! $i=1$ and $N=k+1$.  We have the same results of the Gambler's Ruin problem, if $p=0.5$ then the probability of him hitting point k is $\frac{i}{i+k}$, otherwise the probability is $\frac{1-(\frac{q}{p})^i}{1-(\frac{q}{p})^{i+k}}$.  Easy right? Well, -1 is very much not negative infinity.  We can, however, approximate negative infinity with better numbers.  How about we just take the limit.  This gives us the following result: still $\displaystyle \lim_{i \rightarrow \infty}\frac{i}{i+k}$ if $p=0.5$ or otherwise: $\displaystyle \lim_{i \rightarrow \infty}\frac{1-(\frac{q}{p})^i}{1-(\frac{q}{p})^{i+k}}$.  This gives us $\boxed{p_k = 1$ if $p=\frac{1}{2}}$,  $\boxed{p_k = (\frac{q}{p})^k$ if $p<\frac{1}{2}}$, and $\boxed{p_k = 1$ if $p>\frac{1}{2}}$
+
+
+\bigskip
+
+\noindent 5.
+\smallskip	
+	a) We know the coin flips are not independent.  To prove this, let's take the extreme case.  If one coin landed heads with probabilty $\frac{1}{2}$ and the other landed heads with probability $1$, and we flip one coin and get a tails, we immediately know which coin we have.  The same applies even if the probability of landing heads is not so extreme for that second coin.  
+\bigskip
+
+    b) To find the PMF of this distribution, we can find the PMF of the same distribution for each coin and then, by the law of total probability, average the two (assuming it is equally likely for us to pick either coin). Let's call the event F the event that we picked the fair coin and event U the event that we picked the unfair coin.  Now, the probability that we flip a heads (event $H$) in one flip is $P(H) = P(H \mid F)*P(F) + P(H \mid U)*P(U)$.  This is the same for the distribution of how many heads in 10 flips.  Let's say the event $(H=k)$ is that we land heads k times out of the ten flips.  Then, 
+    \begin{gather*}
+    \begin{align*}
+    P(H=k) &= P(H=k \mid F)*P(F) + P(H=k \mid U)*P(U)\\
+    P(H=k) &= (\binom{10}{k}(\frac{1}{2})^k(\frac{1}{2})^{10-k})*(\frac{1}{2}) + (\binom{10}{k}(\frac{2}{3})^k(\frac{1}{3})^{10-k})*(\frac{1}{2})\\
+    P(H=k) &= \boxed{(\binom{10}{k}(\frac{1}{2})^{10})*(\frac{1}{2}) + (\binom{10}{k}(\frac{2}{3})^k(\frac{1}{3})^{10-k})*(\frac{1}{2})}
+    \end{align*}
+    \end{gather*}
+\bigskip
+    c) 
+    \begin{gather*}
+    \begin{align*}
+    P(F \mid H=6) &= \frac{P(H=6 \mid F)*P(F)}{P(H=6)}\\
+    P(H=6 \mid F)*P(F) &= \binom{10}{6}(\frac{1}{2})^6(\frac{1}{2})^{4}*(\frac{1}{2})\\
+    P(H=6) &= \binom{10}{6}(\frac{1}{2})^{10}*(\frac{1}{2}) + \binom{10}{6}(\frac{2}{3})^6(\frac{1}{3})^{4}*(\frac{1}{2})\\
+    P(F \mid H=6) &= \boxed{0.47397}
+    \end{align*}
+    \end{gather*}
+
+\bigskip
+
+\noindent 6.
+
+    For a single person, the probability that they register to vote is $p_1$, the following probability that they vote is $p_2$, and the following probability that they vote for Kodos is $p_3$.  For an individual to go through each step and actually end up voting for Kodos, the probabilities must all be multiplied together, $p_1p_2p_3$.  Next, since all individuals are independent of each other, the population's voting results can be modeled as a Binomial distribution, $Binom(n, p_1p_2p_3)$. Thus the PMF is $\boxed{P(X=k) = \binom{n}{k}(p_1p_2p_3)^{k}q^{n-k}}$ where $q = 1 - p_1p_2p_3$
+\smallskip	
+        
+\bigskip
+
+\noindent 7. 
+\smallskip
+    a) For $p=0.51$, we are slightly more likely to win.  In any one given game, that could go either way, but over a large number of games, we expect to win more often since $p>0.5$.  Thus, we want to play as many games as possible to push the odds of winning a match in our favor.  This can be proven more rigorously by looking at the CDF of the Binomial Distribution of winning given $n$ trials and probability $p$ of winning.  If $p>0.5$, the larger n is, the more likely we are to win the match.  
+    To test this, I ran the python command numpy.random.binomial(n, p)/n for a large number of trials (all where n was an even number) and, of course, with $p = 0.51$.  I see that the largest proportion of wins (return value divided by n > 0.5), comes with more and more trials.
+    \smallskip
+
+    b) Since p=0.5, the naive definition of probability applies.  Thus, all we need to do is count the number of ways I can win.  If we play two game, I could win both, he could win both, or we could tie. This way, my probability of success is $\frac{1}{4}$. 
+    On the other hand, if we play 4 games, I could win all four games, I could win 3 of the games (in any of four ways), I could win 2 games (in any of 6 ways), I could win 1 game (in any of four ways), or I could lose all four.  This set up lets me win 5 times out of the 16 possibilities.  This is an increase over just playing 2 games.  This pattern continues meaning that the more games I play, the better (asymptotically approaching a .5 chance of winning.  
+    This can also be shown with more of the python code.  Running numpy.random.binomial(n, p)/n for p=0.5 and large n provides a much more consistent result than when I run this for a small n. 
+
+\smallskip
+
+    c) For $p=0.49$, we are slightly less likely to win.  In any one given game, that could go either way, but over a large number of games, we expect to lose more often since $p<0.5$.  Thus, we want to play as few games as possible to prevent the individual games' odds from taking over the match.  This is basically the same as part$(a)$, just from the opposite perspective.
+    Just as in part (a), I ran the python command numpy.random.binomial(n, p)/n for a large number of trials (all where n was an even number) and, of course, with $p = 0.49$.  I see that the win proportion diminishes with more and more trials.
+
+\end{document}
+
+
+

@@ -1,0 +1,21 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf390
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 \
+\
+1) After running the algorithm 50 times on each of the ghosts, I have the following results. \
+	Minimax: (25/50) avg score - 510\
+	Random: (24/50) avg score - 354\
+	Directional: (10/50) avg score - 226\
+This shows that when the ghosts have a focused goal, they have a higher rate of success at defeating pacman.  The ways that this could be improved include increasing the depth of the pacman agent's search as well as interpreting the ghost as using the specified algorithm when he evaluates his decisions.  Currently, he assumes they act exactly as he does, minimax.  For the directional ghost, he might be misled.  He should evaluate his decisions based on exactly how they think if he wants better results. \
+	\
+\
+2) If I were to design a ghost to play against people, and I wanted it to be successful in defeating the pacman, I would be able to make it just about 100% effective.  I would have it guard a food dot.  This would only be ineffective when pacman gets the capsule and can eat this ghost.  To minimize this issue, I would have the ghost guard a dot and a capsule that are next to each other. If I can also control the other ghosts, I would have them do one of two things.  Either guard the other capsules if there are more ghosts than capsules, in which case this method would be 100% effective since pacman could never eat the ghosts and would then be flawlessly prevented from eating all the dots.  If there are fewer ghosts than capsules, I would have the other ghosts attack pacman with the minimax algorithm evaluating the state with large weighting on keeping him from the capsules.\
+\
+3) \
+	a) The two children of the top min node are maximizing agents.  The left child will have chosen 6 after that side has been fully evaluated.  As such, the top min node is guaranteed to have something at least as low as 6.  This means that if min(A,B) returns anything larger than 6, we know we can prune off C and D\
+	\
+	b) Yes, the 6 had to be explored.  The bottom left min agent sees the 9 and the 2 and chooses the 2.  The max agent just above now knows that at least he'll have a 2.  The next min agent sees a 7.  At this point, that min agent has the ability to get a 7 at most, which the max agent right above would still be interested in taking.  So, the min agent begrudgingly looks at the 6 to see if it is a better option.  It is, but it's still high enough that the max agent wants it over the 2.  Thus, the 6 is definitely necessary to be explored.}
