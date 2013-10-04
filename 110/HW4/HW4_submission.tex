@@ -1,0 +1,128 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage[latin1]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{trees}
+\usepackage{amsthm}
+
+
+\begin{document}
+\noindent {\large  \textbf{Stat 110 Homework 4}} \hfill Mark Grozen-Smith
+
+\bigskip
+
+\noindent 1.
+
+	a) In order to find the expected number of stops the eleveator takes in total, we need to find the expected number of stops the elevator takes on each floor. This would be described by $E(I_i)$ if $I_i$ is the indicator of stopping on floor i. Then, by linearity, we can add all those expected values up to find the expected number of total stops.  The expected value of stopping on a given floor is, by the Fundamental Bridge, equal to the probability of stopping on that floor.  
+
+    In order to stop on a floor, at least one person needs to want to stop there, which is the complement of no one wanting to stop there.  The probability that no one wants to stop on a floor is  $(1-\frac{1}{n-1})^k$.  This means that the probability, and expected value, of stopping on a floor is given by $P(I_i) = E(I_i) = 1-(1-\frac{1}{n-1})^k$.  This is the expected value of stopping on one floor.  The expected value of how many stops total is this expected value summed up for all $n-1$ floors.  This leaves us with the expected number of stops being $\boxed{(n-1)(1-(1-\frac{1}{n-1})^k)}$\\
+
+\smallskip
+    b) This problem is the same as before, except now the probability of someone stopping on floor $i$ is not necessarily the same as any other floor.  This only changes the $E(I_i)$ such that $E(I_i) = 1-(1-p_i)^k$.  Now the expected number of stop is still the sum of all these $E(I_i)$ values giving $\boxed{\sum\limits_{i=2}^{n} [1-(1-p_i)^k]}$
+\bigskip
+
+\noindent 2.
+
+	a) In this problem, the simplest indicator is whether or not committee member $i$ is a democrat.  Since there are $d$ democrats in the sample space of size 100, $P(I_i) = \frac{d}{100}$. By the Fundamental Bridge $E(P_i) = P(I_i)$, and by linearity we can just sum these indicators up for all $c$ committe members.  This gives us an expected number of $\boxed{\frac{d}{100}*c}$ democrats on the committee. This can also simply be explained by the elk problem treating the situation as HGeom(w,b,n) = HGeom(d,100-d,c).\\
+\smallskip
+
+    b) To determine the probability of an indicator that a state is represented on the board, it is easier to use the complement.  For a given state $i$, the $P(I_i) = 1-\frac{\binom{98}{c}}{\binom{100}{c}}$. To get $\frac{\binom{98}{c}}{\binom{100}{c}}$, we use the naive definition of probability and count the number of ways we can choose $c$ from any state besides state $i$, then that is divided by the total number of committee configurations there are. This is the probability state $i$ is not represented, so we subtract that from 1 to find the probability that state $i$ is represented.  By the Fundamental Bridge, this is also the expected value of $I_i$.  To find the expected number of states represented on the committee, linearity allows us to sum up all the $E(I_i)$ values.  This leaves us with $\boxed{50*(1-\frac{\binom{98}{c}}{\binom{100}{c}})}$ \\
+\smallskip
+
+    c) In order for a state to be doubly represented on the committee, both members must be on the committee and the remaining $c-2$ members can be whoever.  This makes it simple to calculate the probability that state $i$ is doubly represented.  We can just take the total number of ways the remaining $c-2$ people can be chosen from the other 98 senators then divide that by the total number of possible committees.  This leaves the probability that state $i$ is represented as $P(I_i) = \frac{\binom{98}{c-2}}{\binom{100}{c}}$.  Again, by the Fundamental Bridge and linearity, we can just add this up for all states to find the expected number of states that are doubly represented are $\boxed{50*\frac{\binom{98}{c-2}}{\binom{100}{c}}}$.  \\
+
+
+\bigskip
+
+
+\noindent 3. 
+\smallskip
+    a) If F=G, then we can expect that the ranked values will alternate between X and Y (if the values did not approximately alternate, this would imply an implicit difference between X and Y).  As such, we know that the expected rank for any value $X_i$ is $\frac{m+n+1}{2}$ as this is the middle of the listed ranked items.  Since there are m items in R, linearity tells us we can just multiply these values together to find $E(R)=m*\frac{m+n+1}{2}$.  \\
+
+\smallskip
+    b) To find $E(R)$, we have to sum up the expected rank for each of the $m$ X values.  For any given X value, $X_i$, it has a probability of $\frac{1}{2}$ of being of greater than any other X value since they come from the same distribution (proof lies in the kids getting on a bus problem, also referenced in \#6). To sum this expected value up for the $m-1$ other X values, we now have $E(R_m) = (m-1)\frac{1}{2}$ for now.  We must now compare $X_i$ to all of the n Y values.  For each Y value, $X_i$ has a probability $p$ of being greater than that Y value.  The expected number of Y values that $X_i$ is greater than is then $n*p$ making our expected value $E(R_m) = (m-1)\frac{1}{2} + n*p$.  Since the arguments so far are referring to rank being 0 indexed, we add 1 because we are actually 1 indexing rank.  Then, linearity allows us to add up this value for all the m X values to find the expected value $\boxed{E(R) = m*[\frac{m-1}{2} + np+1]}$
+
+\bigskip
+
+\noindent 4. 
+\smallskip
+    a) The simplest way to figure out when the two coins first both land heads at the same time is to consider what the probability of that success is, then think of the situation as a new coin with this updated success probability.  The probability of Nick's coin landing heads is $p_1$, and the probability of Penny's coin landing heads is $p_2$.  Since these two events are independent, the probability of them both landing heads is just $p_1*p_2$.  We can now just model the distribution of the first success, where both coins land heads, as a $\boxed{$First Success distribution with $p=p_1*p_2}$.  This gives the expected value of the first double heads to be $\boxed{\frac{1}{p_1*p_2}}$.\\
+\smallskip
+
+    b) Seeing at least one coin is basically the same problem as seeing both heads.  Except now the probability of this success is just the complement of seeing both tails.  If the indicator refers to seeing at least one heads on a given flip $i$, this is written as $P(I_i) = 1-(1-p_1)(1-p_2)$.  From here we know that the distribution is just a First Success distribution with the probability as given by the indicator of getting at least one heads, $\boxed{FS(1-(1-p_1)(1-p_2))}$.  This leaves us with the exepcted value of $\boxed{\frac{1}{1-(1-p_1)(1-p_2)}}$.\\
+
+\smallskip
+
+    c) If $p_1=p2$, let's set that probability as $p=p_1=p_2$. If we are looking for the probability that the first heads for each coin is simultaneous with the other's, then there are three valid flip possibilities and one invalid possibility.  This is because if we see 2 tails, we just flip again, whereas if we see one head, we count it as a failure and two heads a success.  We have to renormalize (our Pebble World has lost some mass).  The total probabilities that apply are those for Nick getting a heads and Penny not getting a heads, Penny getting a heads and Nick not getting a heads, and finally both getting heads.  These are $p(1-p),$ $(1-p)p,$ and $p^2$, respectively. The probability that both coins lands heads is that $\boxed{\frac{p^2}{2p(1-p)+p^2}}$.
+    The remaining probability is then divided evenly for Nick getting a heads first and Penny getting a heads first.  The probability of Nick getting a heads first is $\boxed{\frac{p(1-p)}{2p(1-p)+p^2}}$.\\
+\bigskip
+
+\noindent 5.
+\smallskip	
+	a) To see the expected number of cards that are drawn before the first ace, we need to know the probability that one non-ace comes before all four of the aces.  The indicator for that can be described as $I_i$ for non-ace $i$. Since we don't care about all other non-aces, the probability of having the ace come before the four aces is $\frac{1}{\binom{1}{5}}=\frac{1}{5}$.  This is $P(I_i)$.  By the Fundamental Bridge and linearity, we can just multiply this by 48 to find the expected number of non-ace cards we see before the first ace leaving us with $\boxed{\frac{48}{5}}$.  \\
+
+    The above description discussed the expected number of non-aces before the first ace.  However, the same arguement applies to the number of non-aces seen between the first ace and the second ace.  The only difference in the description would be that the $\frac{1}{5}$ probability refers to the non-ace being between the first and second ace.  None of the numbers change though so we expect that the number of non-aces seen between the first and second aces is again $\boxed{\frac{48}{5}}$. This makes sense since the aces should be equally spaced out throughout the 52 cards on average.  If they weren't, that would imply some sort of dependent tendency for the aces to stick closer together or spread further apart.  
+    
+
+\bigskip
+
+\noindent 6.
+\smallskip
+    a) For any strategy used without any feedback, the probability of getting any card right is just a shot-in-the-dark $\frac{1}{52}$ since you are guessing absolutely randomly. This probability is $P(I_i)$ if $I_i$ is 1 if you guess the card right.  Without feedback, we know this probability remains constant for all 52 guesses.  Thus by, once again, the Fundamental Bridge and linearity, we can simply multiply $P(I_i)$ by 52 to get the expected number of correct guesses $=\boxed{1}$.\\
+
+\smallskip	
+    b) Let's say $I_i$ represents the event that the $i$th card is guessed correctly.  Let's say we start off with guessing a certain card.  This card could be early or late in the deck, doesn't matter. Either way, we will definitely see it somewhere in the deck so $P(I_1) = 1$ and thus, by the Fundamental Bridge, $E(I_1)=1$.  Next, for the second card we will definitely see it iff it comes after the first card, an event which happens 50\% of the time (to prove this, ignore all other cards.  How many ways can you order card 1 and card 2? 2.  How many ways does card 2 come after card 1? 1.  Since these are equally likely, the probability of seeing the two after the 1 is $\frac{1}{2}$).  This means that $P(I_2)=\frac{1}{2}$.  Again, by the Fundamental Bridge, $E(I_2)=\frac{1}{2}$.  This raises our expected value to 1+$\frac{1}{2}$. Now for card 3, let's assume we saw the first 2 cards.  We will see this third card if it comes after the second card which will happen $\frac{1}{3}$ of the time (again, to prove this, ignore all other cards.  How many ways does the third card come after the first two? 1 out of 3.  Just like the kids getting on a bus problem).  So it sounds like $P(I_3)=\frac{1}{3}$ but remember this assumes that we saw the first 2 cards, which had a probability of $\frac{1}{2}$ so we must multiply these together since they are happening at the same time.  This pattern continues.  The $i$th card will be seen with probability $\frac{1}{i}$if the $i-1$ card was seen (which has probability $\frac{1}{(i-1)!}$).  This leaves us a total probability of $\sum\limits_{k=1}^{52} \frac{1}{k!}$ which is similar to the Taylor Series for $e$ except it's missing a 1 at the beginning, thus $\boxed{e-1}$.\\
+    \smallskip
+
+    c) On guess $i$, you have seen $i-1$ cards.  This means the card $i$ you are about to flip could be any one of $52-(i-1)$ cards.  Since you have no information beyond what you have already seen and all cards are equally likely, the probability of getting the $i$th guess right is $\frac{1}{52-i+1}$ regardless of which non-stupid strategy you use.  This lets us assign probabilities to all $I_i$ values (the indicators for whether or not you guess the $i$th card correctly).  $P(I_i)=\frac{1}{52-i+1}$.  For the expected value of the number of cards you guess right in total, we can, by the Fundamental Bridge and linearity, sum all the $P(I_i)$ values up to get $\boxed{\sum\limits_{k=1}^{52} \frac{1}{k}}$.\\
+\bigskip
+
+\noindent 7. 
+\smallskip
+    a) This mismatch of persepctives is a simple issue.  The dean is taking a simple average here; 
+    $\frac{ \text{total number of students}}{\text{total number of classes}}$.  This does come out to 20.   However, the students eye average class size is the sum of the class sizes weighted by how many students are in those classes which would be $100*\frac{200}{360} + 10*\frac{160}{360} = 60$.  The simple average does not pay attention to the outliers which lie far from the mean. Yes, the average may remain at 20, but there are 200 hundred students in a 100 person class.  This outlier leads to a skewed perception of the students. 
+\bigskip
+
+    b) First lets define 3 things:
+
+    \begin{gather*}
+    \begin{align}
+    \text{The number of classes available:  }n\\
+    \text{The number of students total:  }s\\
+    \text{The number of students in class i:  }s_i\\
+    \text{The Dean's View Average (DVA):  }\frac{1}{n} \sum\limits_{i=1}^n s_i \\
+    \text{The Student's View Average(SVA):  } \sum\limits_{i=1}^n s_i*(\frac{s_i}{\sum\limits_{k=1}^n s_k })\\
+    \end{align}
+    \end{gather*}
+
+    To explain the DVA, this is simply the total number of students divided by how many classes there are.  The SVA is similar however this sums up the number of students in each class weighted by how many people are in each class (otherwise thought of as the probability of observing a class of a certain size if a student is to be chosen at random).  From here, we simplify the SVA.
+
+    \begin{gather*}
+    \begin{align}
+    \text{SVA:  } \sum\limits_{i=1}^n s_i*(\frac{s_i}{\sum\limits_{k=1}^n s_k }) = \frac{\sum\limits_{i=1}^n s_i^2}{\sum\limits_{k=1}^n s_k }\\
+    \end{align}
+    \end{gather*}
+
+    Next, we plug the DVA into the variance formula.
+
+    \begin{gather*}
+    \begin{align*}
+    Variance = E(x^2) - E(x)^2 > 0\\
+     \frac{1}{n} \sum\limits_{i=1}^n s_i^2 - (\frac{1}{n})^2 \sum\limits_{i=1}^n s_i^2 > 0\\
+     \text{ If we divide all terms by the DVA, we get:}\\
+     \frac{\sum\limits_{i=1}^n s_i^2}{\sum\limits_{i=1}^n s_i} - (\frac{1}{n}) \sum\limits_{i=1}^n s_i > 0\\
+     \text{if we move the second term to the other side we get:}\\
+     \frac{\sum\limits_{i=1}^n s_i^2}{\sum\limits_{i=1}^n s_i} > (\frac{1}{n}) \sum\limits_{i=1}^n s_i\\
+     \text{Which we see is then the same as SVA is greater than DVA!}\\
+     \text{This proves that the SVA will always be greater than the DVA.}\\
+     \text{However, in the case that all classes are the same size,}\\
+     \sum\limits_{i=1}^n s_i = \frac{1}{n}\\
+     \text{and then this equality is actually and =} \\
+     \text{which would be the degenerate case when the variance is 0}
+    \end{align*}
+    \end{gather*}
+
+\end{document}
+
+
+
