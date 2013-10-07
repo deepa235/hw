@@ -1,0 +1,54 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage[latin1]{inputenc}
+\usepackage{amsthm}
+
+
+\begin{document}
+\noindent {\large  \textbf{CS 182 Homework 5}} \hfill Mark Grozen-Smith
+
+\bigskip
+
+\noindent 1.
+
+	a) 
+	\begin{gather}
+	\begin{align*}
+		C &= Coughing \\
+		K &= Kidney Failure  \\
+		H &= Heart Problems \\
+		F &= Fever \\
+		N &= Neurological System Failure \\
+		B &= Blood Flow Problems \\
+		B_c &= Blood Clot\\
+		L &= Liver Failure \\
+		S &= Stomach Ache\\
+		B_p &= High Blood Pressure \\
+		H_a &= Headache 
+	\end{align*}
+	\end{gather}
+\smallskip
+	
+	b) 
+	\begin{gather*}
+	\text{If a patient is coughing, his kidneys, his heart, or both, are failing.}\\
+	(K\vee H) \rightarrow C\\
+	\text{Patient will have a fever when the neurological system fails or when there is a problem of blood flow.}\\ 
+	F \rightarrow (N \vee B) \\
+	\text{A blood clot forms when there is a failure in blood flow or when there is liver failure.} \\
+	B_c \rightarrow (B \vee L)\\
+	\text{A patient has a stomachache if and only if the kidneys fail.}\\
+	S \leftrightarrow K\\
+	\text{High blood pressure is caused when the kidneys fail or when there is a blood flow problem.} \\
+	B_p \rightarrow (K \vee B)\\
+	\text{Finally, headache presents when one or more of these three systems fails }\\
+	\text{ the neurological system, the heart or the kidneys.}\\
+	H_a \rightarrow (N \vee H \vee K)
+	\end{gather*}
+
+	
+
+\end{document}
+
+
+
