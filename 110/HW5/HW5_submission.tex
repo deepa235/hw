@@ -11,55 +11,98 @@
 
 \noindent 1.
 
-	a) 
-	\begin{gather}
-	\begin{align*}
-		P(C \mid G) &= \frac{P(G \mid C)*P(C)}{P(G)} \\
-		P(C \mid G) &= \frac{1*\frac{1}{3}}{\frac{2}{3}} = \boxed{\frac{1}{2}}
-	\end{align*}
-	\end{gather}
+	a) The probability that a given person has the same birthday as I is $\frac{1}{365}$.  So, the probability of the indicator $I_i$ is $\frac{1}{365}$, and there are $n$ people in this group.  We will be solving for what this $n$ is.  
+	With the Poisson Distribution, we can approximate the number $n$ for how many people we need for there to be a 50\% chance that at least someone has the same birthday as I.  This is the same as the complement of the probability that no one has the same birthday as I.  To use the Poisson Distribution, we would use $n*p = \lambda = \frac{n}{365}$ then find this probability that no one has the same birthday as I: 
+	$$ P(X=0) = \frac{e^{-\lambda}\lambda^0}{0!} = e^{-\frac{n}{365}} = 1-\frac{1}{2}$$
+	This can be rearranged to find $\boxed{n=253}$
 
 \smallskip
-	b) 
+	b) This is basically the same problem as above but now the probability that any three people have the same birth hour is $\frac{1}{365*24}$.  This is because you can take either person of the two and just start with that birth hour (since the probability that a person $has$ a birth hour is 1), then the probability that the other person has the same birth hour is $\frac{1}{365*24}$.  The number of indicator variables this time is $\binom{n}{2}$ since we are solving for $n$ and there are $n$ choose 2 number of pairs possible of $n$ people.  From there we just use the Poisson the same way.  
+	$$ P(X=0) = \frac{e^{-\lambda}\lambda^0}{0!} = e^{-\frac{n}{365*24}} = 1-\frac{1}{2}$$
+	This can be rearranged to find $\boxed{n=111}$ (the exact number is less than 111, but people must come in integer values).  
+
+\smallskip
+	c) As we increase the number of people in our set, $n$, we know that the number of possible pairs increases as a function of about $n^2$ since the number of possible pairs is $\binom{n}{2} $.  This means that, in order to reach the same probability of having a match by the hour versus just by the day, we only need to scale the number of pairs up by the ratio of hours to days. Since there are 24 times as many hours in the year as there are days, we know we need to scale the number of possible pairs up by 24, which translates to an increase in about $\sqrt{24}$ in the number of people themselves.
+
+\smallskip
+	d) Using triplets as indicators:
+		$$ p = \frac{1}{365^2}$$
+		$$ n = \binom{100}{3} $$
+		$$ \lambda = np = \frac{\binom{100}{3}}{365^2} $$
+		Now we must find $P(X=0)$ and subtract that probability from 1 because the quesiton asks for the probability that at least 3 people share the same birthday.  This is made much easier if we calculate the complement.  
+		$$ P(X=0) =  \frac{e^{-\lambda}\lambda^0}{0!} = e^{-\frac{\binom{100}{3}}{365^2}} = 0.297085$$
+		Thus, this method's approximation says the probability that we have at least on co-birthed triplet is $1-0.297085 = \boxed{0.702915}$
+
+		Using the days as indicators:
+		In order to find the probability that there are 3 or more people who have the same birthday, we look at all days $D_i$ of the 365 days of the year and find the probability that exactly 0, 1, or 2 people have their birthday's on $D_i$.  Then subtract this value from 1 and that is the probability that at least 3 people have the same birthday on day $D_i$.  Then multiply this by 365 and that is the total rate of triple+ coincident birthdays per year, our $\lambda$ for this Poisson example.  
+		Let's call the b the number of birthdays on day $D_i$.
+		$$P(b=0) = \frac{364}{365}^{100}, P(b=1) = 100*\frac{364^{99}}{365^{100}},P(b=2) = \binom{100}{2}\frac{364^{98}}{365^{100}}$$
+		Given the above values $$ P(b\ge3) = 1- \frac{364}{365}^{100} - 100*\frac{364^{99}}{365^{100}} - \binom{100}{2}\frac{364^{98}}{365^{100}}$$
+		After summing up this value for all 365 days, we get our $\lambda$ value.
+		$$ \lambda = 365(1- \frac{364}{365}^{100} - 100*\frac{364^{99}}{365^{100}} - \binom{100}{2}\frac{364^{98}}{365^{100}})$$
+		Now, using the Poisson to approximate the probability that more than 0 triple+ coincident birthdays happen in one year, we take the complement of the following 
+		$$ P(X=0) = \frac{e^{-\lambda}\lambda^0}{0!} = e^{-\lambda} = 0.369528$$
+		$$ \boxed{P(X<0) = 0.630472} $$
+		In both these attempts, we are approximating the probabilities with the Poisson Distribution.  In order to do this, we must use our non-infinitesimal probabilities even though the Poisson requires infinitesimal values.  Since this is from where our approximation deviates from the exact model, we can expect that the model using indicators with smaller probabilities will be a better approximation.  This correctly turns out the be the second model, the one using individual days as the indicator states.  
+
 \bigskip
+
 
 \noindent 2.
 
-	a) 
-
-\smallskip
-
-    b) 
-\smallskip
-    
-    c) 
-
+	We know that the probability that any given customer that walks in makes a purchase is 35\% by the Law of Total Probability (a third of the 90\% dextrous and half of the 10\% sinister adds up to 35\%).  By the Chicken and Egg problem, we know that the number of people that walk in and make purchases (hatching eggs) and the fact that there are 42 people who walk in and don't make a purchase (non-hatched eggs) are independent. Since these people derive from a Poisson Distribution with $\lambda = 100$, the 35\% that come in and make purchases are then derived from a Pois(0.35*100) = Pois(35).  
+	Given this, the PMF of X, the number of people who make purchases on this day, is 
+	$$ \boxed{PMF(X=k) = \frac{e^{-\lambda}*\lambda^k}{k!}}$$
 \bigskip
 
 
 \noindent 3. 
+	a) In order to figure out the mean and variance of A, we need to use LOTUS with the PDF of R. Since R comes from the Uniform Distribution, we know the PDF for R is $\frac{1}{b-a} = \frac{1}{1} = 1$.  From here, we can plug in our $g(r)$ to the expected value function.  
+	$$ E(A) = \int^1_0\pi r^2dr = \boxed{\frac{\pi}{3}}$$
+	To find the variance, we want to use the formula $Var = E(x^2) - E(x)^2$.  We have $E(x)=\frac{\pi}{3}$, so the $E(x)^2$ term is simply $\frac{\pi^2}{9}$.  To find $E(x^2)$, we need to repeat the integral from before, though now with the area function squared.  
+	This gives us
+	$$ Var = \int^1_0(\pi r^2)^2dr - \frac{\pi^2}{9} = \boxed{\frac{\pi^2}{5}  - \frac{\pi^2}{9}}$$
+	b)
+		In order to find the CDF for A, we need to find the probability that the area of a random circle has an area less than or equal to the given area x.  We can do this by taking the area, reversing the area formula to solve for the radius, and then using that R and the Uniform Distribution to determine the probability of that radius and area.   Written mathematically, $\boxed{CDF(A<x) = \sqrt{\frac{x}{\pi}}}$.
+
+		To find the PDF of A, we can just take the derivative with respect to x of the CDF.  
+		$$PDF(A=x) =\frac{d}{dx}\sqrt{\frac{x}{\pi}} = \boxed{\frac{1}{2\pi}(x\pi)^{-\frac{1}{2}}}$$
     
 \bigskip
 
 \noindent 4. 
 \smallskip
-    a)
+    a) Since the X distribution is the $Z^2$ distribution, we can convert the X values, 1 and 4, back to Z by taking their square roots, leaving us with $P(1<Z<2)$.  By the simple standard deviation probabilities of the normal distribution, we know that the probability of a variable resulting between the first and second standard deviation is $\frac{0.95}{2}-\frac{0.68}{2} = \boxed{13.5\%}$
 \smallskip
 
-    b) 
-\smallskip
-
-    c) 
-
+    b) We know that $I(Z>t) \le (\frac{Z}{t})I(Z>t)$ must be true if $t > 0$. If the value pulled from the standard normal is greater than t, then the indicator is 1 on both sides and the ratio of Z to t is larger than 1.  If the value pulled is less than t, the indicators are both 0 and the two sides are equal.  One worry I had was what if the value pulled is negative.  This isn't a problem though because we know that t is greater than 0 so, if Z is negative, the indicators are definitely 0 and the two sides are equal. 
+    In order to show that $\Phi(t) \ge 1 - \varphi(t)/t$, we start with $I(Z>t) \leq (Z/t)I(Z>t)$ and then take the expectation of both sides with respect to Z.
+    $$ E(I(Z>t)) \le E(\frac{Z}{t}I(Z>t))$$
+    Since the t is a constant, we can take it out of the integral we find when we use LOTUS to find the expectation of $\frac{Z}{t}I(Z>t)$.  Additionally, finding $E(I(Z>t))$ is the same as finding $P(Z>t)$ which is just the complement of the CDF(t)
+    $$ 1 - \Phi(t) \le \frac{1}{t}\int^{\infty}_{-\infty}Z*I(Z>t)*\frac{e^{-\frac{z^2}{2}}}{\sqrt{2\pi}}dZ$$
+    Then we know that the limits of the integral can be simplified to be from $t$ to infinity because anywhere that Z is less than t will be 0 since the indicator variable declares that. 
+    $$ 1 - \Phi(t) \le \frac{1}{t}\int^{\infty}_{t}Z*\frac{e^{-\frac{z^2}{2}}}{\sqrt{2\pi}}dZ$$
+    Once the integral is taken we have
+    $$ 1 - \Phi(t) \le (\frac{1}{t})*\frac{-e^{-\frac{z^2}{2}}}{\sqrt{2\pi}}\Big|^\infty_t$$
+    $$ 1 - \Phi(t) \le (\frac{1}{t})*\frac{e^{-\frac{t^2}{2}}}{\sqrt{2\pi}}$$
+    $$ 1 - \Phi(t) \le (\frac{1}{t})*\varphi(t)$$
+    Which leaves us with the final product
+    $$ 1 - \frac{\varphi(t)}{t} \le \Phi(t)$$
 
 \bigskip
 
 \noindent 5.
 \smallskip	
-	a) 
-\bigskip
+	a) Since the values are i.i.d. and part of a continuous distribution, we know that we can just think of the numbers as completely random and never reappearing.  With this knowledge, it is obvious that the probability of getting the highest value out of j values is $\frac{1}{j}$.  The same goes for finding the lowest value.  We can say that the probability of the indicator that the $j$th year is a max or min so far is just $\frac{2}{j}$ since there are 2 ways to have a max or min out of the $j$ possible ranks this new data point could be.  Given this and Linearity, we can sum up these probabilities to get the expected number of maximums and minimums over 100 years as $\boxed{\sum^{100}_{j=1} \frac{2}{j}}$
+\smallskip
 
-    b) 
+    b) In order to find the probability of having a minimum right after a maximum, we can use the same probability of finding a minimum, just like before, but now conditioned on having a max right beforehand.  Again, the probability of getting a min value on the $j$th year is $\frac{1}{j}$, and the probability that the last year, the $(j-1)$th year, was a max is $\frac{1}{j-1}$.  For these two events to happen together, a min right after the max, we multiply these probabilities together.  Just as before, this is the probability that a given year has these events happen at once, a.k.a. the expected value of the indicator of these two events happening.  By Linearity, we can add these all up over the relevant range, $j=2,100$ since there are only 100 years and we can't have a min after the max until the second year since 2 years are involved.  
+    This leaves us with $\boxed{\sum^{100}_{j=1} \frac{1}{j(j-1)}}$
+\smallskip
+
+	c) In order to have the first year be a max for the following n years, the first value needs to be the largest of those n+1 values.  Again, since these temperature values are all i.i.d. and continuous, we can just see the values as purely random.  This means that the rank of any year's value is completely random and equivalently likely for all ranks.  Thus, the probability that any given year has the highest temperature over any n+1 years is simply $ \boxed{\frac{1}{n+1}}$.  
+	To find the PMF of N, the number of years required to get the next max, we have two parts to consider.  First, we must obtain the probability that the Nth year after the first year is a max.  As said before, the probability of this is $\frac{1}{N+1}$ since this is one number of the N+1 other values.  The other half that must be factored in is that, before this Nth year, the first year was a max.  The probability of this, as shown before, is $\frac{1}{N}$ since there are N years before this year and one of them is the first year.  We can then multiply these values together to get $\boxed{PMF(N=n) = \frac{1}{n(n+1)}}$
+
 
 \bigskip
 
@@ -67,3 +110,5 @@
 
 
 
+
+	d) 

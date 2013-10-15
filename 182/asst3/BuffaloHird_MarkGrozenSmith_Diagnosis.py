@@ -5,10 +5,11 @@ Created on Sep 23, 2013
 '''
 
 import random, sys, copy
+from datetime import datetime
 
 def WalkSAT_improved(clauses,p,max_flips):
     for i in xrange(max_flips):
-        print i
+        #print i
         falsies = [clause for clause in clauses if not clause.evaluate()]
         if falsies == []:
             return clauses
@@ -21,7 +22,7 @@ def WalkSAT_improved(clauses,p,max_flips):
     return None
 
 def improved_flip(clauses):
-    literals_seen = {} # dictionary of (keys)literal_names: (values)truth_value
+    literals_seen = {}
     best_flip = [None, sys.maxint]
     for clause in clauses:
         for literal in clause.literals:
@@ -48,6 +49,7 @@ def WalkSAT(clauses,p,max_flips):
             flip_literal(clauses, random_literal)
         else: 
             max_flip(clauses, random_clause)#-flip whichever symbol in clause maximizes the number of satisfed clauses
+    print 'not solved bro'
     return None
 
 def max_flip(clauses, clause):
@@ -133,71 +135,36 @@ class Clause:
 
 if __name__ == '__main__':
     """"your code here: you should create the clauses that form an input to walkSAT and run walkSAT"""
-    
+    #time our execution (uncomment the iterations of flips in WalkSAT to get info on iterations)
+    startTime = datetime.now()
+
+
+
     #Literal(name, negated, mutable, value)
-    clause1 = Clause([Literal('kidney failure', False)])
+    clause1 = Clause([Literal('kidney failure', True)])
     clause2 = Clause([Literal('kidney failure', False), Literal('heart failure', False)])
     clause3 = Clause([Literal('neurological System Failure', False), Literal('blood flow issues', False)])
     clause4 = Clause([Literal('blood flow issues', False), Literal('liver failure', False)])
     clause5 = Clause([Literal('kidney failure', False), Literal('blood flow issues', False)])
     clause6 = Clause([Literal('neurological System Failure', False), Literal('heart failure', False), Literal('kidney failure', False)])
 
-    clauses_old = [clause1, clause2, clause3, clause4, clause5, clause6]
+    clauses = [clause1, clause2, clause3, clause4, clause5, clause6]
+    ### run algorithm with clauses, P(pickRandomFlip), max_flips ###
+    clauses = WalkSAT(clauses, 0.2, 5)
+    ### run the algorithm with the improved flip choice ###
+    #clauses = WalkSAT_improved(clauses, 0.8, 100)
+
+    ### allows repeat running, because it changes the actual clauses ###
+    """clauses_old = [clause1, clause2, clause3, clause4, clause5, clause6]
     clauses = copy.deepcopy(clauses_old)
-    #print_clauses(clauses)
+    print_clauses(clauses)
     for i in xrange(0,20):
         clauses = copy.deepcopy(clauses_old)
         #print_clauses(clauses)
-        clauses = WalkSAT_improved(clauses, 0.5, 100)
+        clauses = WalkSAT(clauses, 1, 100)
         print '\n'
         #if(clauses != None):
-            #print_clauses(clauses)
-
-
-
-
-"""
-    coughing = Literal("Coughing", False)
-    coughing.setValue(True)
-    coughing.setMutable(False)
-
-    fever = Literal("Fever", False)
-    fever.setValue(True)
-    fever.setMutable(False)
-
-    bloodClot = Literal("Blood Clot", False)
-    bloodClot.setValue(True)
-    bloodClot.setMutable(False)
-
-    bloodPressure = Literal("Blood Pressure", False)
-    bloodPressure.setValue(True)
-    bloodPressure.setMutable(False)
-
-    headAche = Literal("Head Ache", False)
-    headAche.setValue(True)
-    headAche.setMutable(False)
-
-    stomachAche = Literal("Stomach Ache", False)
-    stomachAche.setValue(False)
-    stomachAche.setMutable(False)
-    
-    neuroSys = Literal("Neurological System Failure", False)
-    neuroSys.setValue(False)
-    neuroSys.setMutable(True)
-
-    kidneyFailure = Literal("Kidney Failure", False)
-    kidneyFailure.setValue(False)
-    kidneyFailure.setMutable(True)
-
-    heartFail = Literal("Heart Failure", False)
-    heartFail.setValue(False)
-    heartFail.setMutable(True)
-
-    bloodFlow = Literal("Blood Flow Problems", False)
-    bloodFlow.setValue(False)
-    bloodFlow.setMutable(True)
-    """
-
-
+            #print_clauses(clauses)"""
+    print(datetime.now()-startTime)
 
 

@@ -1,0 +1,51 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage[latin1]{inputenc}
+\usepackage{amsthm}
+
+
+\begin{document}
+\noindent {\large  \textbf{CS 182 Homework 5}} \hfill Mark Grozen-Smith
+
+\bigskip
+
+	I define a soccer game as my theoretical environment.
+
+	I define a function hasball(x) which means agent x has a ball 
+	$$ hasball(x)$$
+
+	And another function wantball(x) which means agent x wants the ball
+	$$ wantball(x)$$
+
+	I define all players as on team A or team B
+	$$ \forall x player(x) \rightarrow Ateam(x) \oplus Bteam(x) $$
+
+	For all players, they want to have the ball if they don't already have it
+	$$ \forall x player(x) \rightarrow wantball(x) \oplus hasball(x) $$
+
+	For all players, there exists one who has the ball
+	$$ \forall x player(x) \rightarrow \exists x hasball(x)$$
+
+	For all players, there exists one who wants the ball
+	$$ \forall x player(x) \rightarrow \exists x wantball(x)$$
+
+	If a player wants the ball, the player approaches the player with the ball
+	$$ \forall x wantball(x), \exists y hasball(y) \rightarrow \exists x approaches(x,y)$$
+
+	If a player has the ball, the player avoids the player approching
+	$$ \exists y hasball(y), \forall x approaches(x,y), \rightarrow \exists y avoids(y,x)$$
+
+	If a player has the ball, is not approached by anyone, and is near the goal, they will shoot
+	$$ \exists y hasball(y), \neg \exists x approaches(x,y), \exists y neargoal(y) \rightarrow \exists y shoot(y) $$
+
+	If a player takes a shot, the whole team gathers in celebration or anger
+	$$ \forall x Bteam(x), \exists y shoot(y) \rightarrow \forall y approaches(x,y)  $$
+
+	From this info I can see some interesting things. The agents are always interested in the ball or another player.  Using these basic rules, we could program a simple robot to perform some pretty complicated instructions without us explicitly programming them. 
+
+	We see with these rules that if you do not have the ball, you also are not avoiding anyone nor shooting the ball.  We can start by saying person p doesn't have the ball.  We then see that person p wants the ball.  If p doesn't not have the ball, p is not being approached by anyone, and thus is not avoiding anyone. Also, if p does not have the ball, p is not shooting the ball. 
+
+\end{document}
+
+
+

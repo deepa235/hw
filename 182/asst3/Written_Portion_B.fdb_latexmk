@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1381487699 "HW5_submission.tex" "HW5_submission.pdf" "HW5_submission" 1381487699
+["pdflatex"] 1381266337 "Written_Portion_B.tex" "Written_Portion_B.pdf" "Written_Portion_B" 1381266337
   "/usr/local/texlive/2013/texmf-dist/tex/latex/amscls/amsthm.sty" 1361575838 13294 f63af559496acbb4ffecc2de353745eb ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/amsmath/amsbsy.sty" 1362954379 2412 2d98314dc5be38f455f8890deeb2d091 ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/amsmath/amsgen.sty" 1362954379 4357 ad30ad08920902fc9b38caf35a3b0496 ""
@@ -10,9 +10,9 @@
   "/usr/local/texlive/2013/texmf-dist/tex/latex/base/inputenc.sty" 1254151887 4388 1cb2ca8d423695bd22ea8d126c276f33 ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/base/latin1.def" 1254151887 6455 2a72ff1732e71317e8b646afb44d691b ""
   "/usr/local/texlive/2013/texmf-dist/tex/latex/base/size11.clo" 1254151887 9058 640f9c40a6d912e30839a669c8a999ec ""
-  "HW5_submission.aux" 1381487699 8 a94a2480d3289e625eea47cd1b285758 ""
-  "HW5_submission.tex" 1381487699 11989 508c0db429ef0db29e36f8ea0fcb46b4 ""
+  "Written_Portion_B.aux" 1381266337 8 a94a2480d3289e625eea47cd1b285758 ""
+  "Written_Portion_B.tex" 1381266336 2265 f460ae13dcd62519e37615aa1889e5c7 ""
   (generated)
-  "HW5_submission.log"
-  "HW5_submission.pdf"
-  "HW5_submission.aux"
+  "Written_Portion_B.aux"
+  "Written_Portion_B.log"
+  "Written_Portion_B.pdf"
